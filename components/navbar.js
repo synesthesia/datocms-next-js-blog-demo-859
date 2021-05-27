@@ -1,7 +1,10 @@
 import React from "react";
+import Login from "../components/login"
 
 export default function Navbar({ fixed }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+    
+
   return (
     <>
       <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-black mb-3">
@@ -62,6 +65,9 @@ export default function Navbar({ fixed }) {
                 >
                   <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Tweet</span>
                 </a>
+              </li>
+              <li className="nav-item">
+                 <Login />
               </li>
               
             </ul>
