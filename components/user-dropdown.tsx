@@ -1,6 +1,7 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
 import type { StrictModifiers } from '@popperjs/core';
+import Link from "next/link"
 import { useSession, signOut } from 'next-auth/client'
 
 export default function UserDropdown({ color, heading }) {
@@ -59,17 +60,17 @@ export default function UserDropdown({ color, heading }) {
               }
               style={{ minWidth: "12rem" }}
             >
+              <Link href="/profile">
               <a
-                href="#pablo"
                 className={
                   "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent " +
                   (color === "white" ? " text-blueGray-700" : "text-white")
                 }
-                onClick={e => e.preventDefault()}
+                //onClick={e => e.preventDefault()}
               >
                 My Profile
               </a>
-              
+              </Link>
               <button className="text-sm bg-transparent hover:bg-gray-200  font-normal py-2 px-4 rounded"
               onClick={() => signOut({redirect: false})}>
                   Logout
