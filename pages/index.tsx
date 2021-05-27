@@ -1,3 +1,4 @@
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 import Head from "next/head";
 import { renderMetaTags, useQuerySubscription } from "react-datocms";
 import Container from "../components/container";
@@ -8,7 +9,8 @@ import MoreStories from "../components/more-stories";
 import { request } from "../lib/datocms";
 import { metaTagsFragment, responsiveImageFragment } from "../lib/fragments";
 
-export async function getStaticProps({ preview }) {
+export const  getStaticProps:  GetStaticProps = async context  =>  {
+  const {preview} = context;
   const graphqlRequest = {
     query: `
       {
@@ -24,7 +26,7 @@ export async function getStaticProps({ preview }) {
         }
         allPosts(orderBy: date_DESC, first: 20) {
           title
-          slug
+          slug 
           excerpt
           date
           coverImage {

@@ -1,9 +1,8 @@
 import React from "react";
-import Login from "../components/login"
+import Login from "./login"
 
-export default function Navbar({ fixed }) {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
-    
+export default function Navbar({ fixed} : {fixed?:boolean}) {
+    const [navbarOpen, setNavbarOpen] = React.useState(false);
 
   return (
     <>

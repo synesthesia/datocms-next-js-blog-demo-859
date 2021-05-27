@@ -1,4 +1,4 @@
-import UserDropdown from "../components/user-dropdown"
+import UserDropdown from "./user-dropdown"
 
 import { useSession } from 'next-auth/client'
 

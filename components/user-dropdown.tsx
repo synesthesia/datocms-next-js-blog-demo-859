@@ -1,16 +1,17 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import type { StrictModifiers } from '@popperjs/core';
 import { useSession, signOut } from 'next-auth/client'
 
 export default function UserDropdown({ color, heading }) {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const [ session, loading ] = useSession()  
-    const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const btnDropdownRef = React.createRef<any>();
+  const popoverDropdownRef = React.createRef<any>();
   const openDropdownPopover = () => {
     if(session)  {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+    createPopper<StrictModifiers>(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start"
     });
     setDropdownPopoverShow(true);

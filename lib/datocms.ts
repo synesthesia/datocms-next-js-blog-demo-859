@@ -1,6 +1,6 @@
 import tiny from 'tiny-json-http';
 
-export async function request({ query, variables, preview }) {
+export async function request({ query, preview,  variables} : { query:string, preview?: boolean,  variables?:any}  ) {
 
   let endpoint = 'https://graphql.datocms.com';
 
