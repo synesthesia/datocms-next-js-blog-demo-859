@@ -47,11 +47,6 @@ export default function UserDropdown({ color, heading }) {
                   ? closeDropdownPopover()
                   : openDropdownPopover();
               }}
-              onMouseLeave={() => {
-                dropdownPopoverShow
-                  ? closeDropdownPopover()
-                  : openDropdownPopover();
-              }}
             >
               { heading ?? "Heading"}
             </button>
