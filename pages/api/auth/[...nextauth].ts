@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { UserProfile, getProfile } from '../../../lib/userprofile';
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -114,12 +115,27 @@ export default NextAuth({
      * @return {object}            JSON Web Token that will be saved
      */
     async jwt(token, user, account, profile, isNewUser) {
-        console.log(account);
+        console.log(`account: ${JSON.stringify(account)}`);
+        console.log(`user: ${JSON.stringify(user)}`);
+        console.log(`profile: ${JSON.stringify(profile)}`);
+
+        if(user) {  
+          token.xc = user.ssat_xrmcontactid
+        }
 
         if (account?.accessToken) {
             token.accessToken = account.accessToken
             //token.subject = account.id
         }
+
+        if (account?.id){
+          let userData = await getProfile(account.id);
+          console.log(`userData:${JSON.stringify(userData)}`);
+          if (userData){
+            token.groups = userData.roles;
+          }
+        }
+
         return token
     },
 
@@ -131,7 +147,11 @@ export default NextAuth({
      */
     async session(session, token) {
         // Add property to session, like an access_token from a provider.
-        console.log(token);
+        session.xc = token.xc;
+        session.groups = token.groups;  
+
+        console.log(`sessiontoken: ${JSON.stringify(token)}`);
+        console.log(`sessionobject: ${JSON.stringify(session)}`);
         return session
     }
   },
