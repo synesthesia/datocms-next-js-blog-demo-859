@@ -217,7 +217,8 @@ export const Image: React.FC<ImagePropTypes> = function ({
                 ...pictureStyle,
                 opacity: showImage ? 1 : 0,
                 transition,
-              }}              
+              }}
+              key={data.src}
             />
           )}
         </picture>
