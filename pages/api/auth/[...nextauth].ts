@@ -16,7 +16,16 @@ export default NextAuth({
         scope: "openid profile email userprofile ssat offline_access", // Allowed Scopes
         domain:  process.env.IdentityServer_Domain,
         clientId: process.env.IdentityServer_CLIENT_ID,
-        clientSecret: process.env.IdentityServer_CLIENT_SECRET
+        clientSecret: process.env.IdentityServer_CLIENT_SECRET,
+        profile(profile) {
+          let name = "";
+          if(Array.isArray(profile.name)){
+            name = profile.name[0];
+          } else  {
+            name = profile.name;
+          }
+          return { ...profile, name: name, id: profile.sub }
+        },
       }),
       
 
@@ -147,10 +156,11 @@ export default NextAuth({
      */
     async session(session, token) {
         // Add property to session, like an access_token from a provider.
+        
         session.xc = token.xc;
         session.groups = token.groups;  
 
-        console.log(`sessiontoken: ${JSON.stringify(token)}`);
+        console.log(`token: ${JSON.stringify(token)}`);
         console.log(`sessionobject: ${JSON.stringify(session)}`);
         return session
     }

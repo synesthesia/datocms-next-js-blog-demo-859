@@ -1,6 +1,6 @@
 import { StructuredText, Image } from "react-datocms";
 import { useSession } from 'next-auth/client'
-import { ISession } from "../lib/session";
+import { ISession } from "../lib/auth";
 
 export default function ProtectedBody({ content, allowedGroups }) {
   
