@@ -44,11 +44,11 @@ export default function Navbar({ fixed} : {fixed?:boolean}) {
                 </Link>
               </li>
               <li className="nav-item">
-              <Link href="/about">
+              <Link href="/articles/test-article">
                   <a
                     className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
                   >
-                    <span className="ml-2">About</span>
+                    <span className="ml-2">An Article</span>
                   </a>
                   </Link>
                 </li>
