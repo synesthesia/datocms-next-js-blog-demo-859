@@ -13,7 +13,14 @@ export default function Login() {
             Hi {(session.user.name.split(' '))[0]}!
     </span>)
     )*/
-    let  firstName  = session.user.name != null ? session.user.name.split(' ')[0] : ""
+
+    let firstName = "";
+    if (Array.isArray(session.user.name)){
+      firstName = (session.user.name[0]).split(' ')[0];
+    } else  {
+      firstName  = session.user.name.split(' ')[0];
+    }
+        
     return (
         <UserDropdown color="white" heading={firstName} />
     )
