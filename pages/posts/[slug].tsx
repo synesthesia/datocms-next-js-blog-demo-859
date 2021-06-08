@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { renderMetaTags, useQuerySubscription } from "react-datocms";
+import ContactForm from "../../components/contact-form";
 import Container from "../../components/container";
 import Header from "../../components/header";
 import Layout from "../../components/layout";
@@ -129,9 +130,11 @@ export default function Post({ subscription, preview }) {
             author={post.author}
           />
           <PostBody content={post.content} />
+          <ContactForm />
         </article>
         <SectionSeparator />
         {morePosts.length > 0 && <MoreStories posts={morePosts} />}
+        
       </Container>
     </Layout>
   );
