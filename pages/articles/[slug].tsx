@@ -76,6 +76,18 @@ export async function getStaticPaths() {
                       value
                     }
                   }
+                  ... on YoutubeEmbedRecord {
+                    id
+                    details {
+                      url
+                      height
+                      provider
+                      providerUid
+                      thumbnailUrl
+                      title
+                      width
+                    }
+                  }
                 }
               }
               slug

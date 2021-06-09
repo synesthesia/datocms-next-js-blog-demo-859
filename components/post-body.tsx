@@ -1,4 +1,20 @@
 import { StructuredText, Image } from "react-datocms";
+import { number, string } from "yup";
+
+interface EmbeddedVideoDetails {
+  url:  string;
+  height: number;
+  provider: string;
+  providerUid: string;
+  thumbnailUrl: string;
+  title: string;
+  width: number;
+}
+
+interface EmbeddedVideoProps {
+  id: number;
+  details : EmbeddedVideoDetails;
+ }
 
 export default function PostBody({ content }) {
   return (
@@ -10,6 +26,11 @@ export default function PostBody({ content }) {
             if (record.__typename === "ImageBlockRecord") {
               let image = record.image as any;
               return <Image data={image.responsiveImage} />;
+            }
+            if (record.__typename === "YoutubeEmbedRecord") {
+              let videoProps = record as unknown as EmbeddedVideoProps;
+              let  src = `//www.youtube.com/embed/#${videoProps.details.providerUid}?rel=0`;
+              return (<iframe src={src} frameBorder="0" allowFullScreen></iframe>)
             }
 
             return (
