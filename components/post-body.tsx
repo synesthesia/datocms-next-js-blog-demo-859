@@ -29,7 +29,7 @@ export default function PostBody({ content }) {
             }
             if (record.__typename === "YoutubeEmbedRecord") {
               let videoProps = record as unknown as EmbeddedVideoProps;
-              let  src = `//www.youtube.com/embed/#${videoProps.details.providerUid}?rel=0`;
+              let  src = `//www.youtube-nocookie.com/embed/#${videoProps.details.providerUid}?rel=0`;
               return (<iframe src={src} frameBorder="0" allowFullScreen></iframe>)
             }
 
