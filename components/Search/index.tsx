@@ -20,6 +20,10 @@ const search = async query => {
   return [].concat(docs, community);
 };
 
+const submitHandler = e => {
+  e.preventDefault();
+}
+
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -82,13 +86,14 @@ export default function Search() {
           ))}
         </ul>
       </div>
-      <form className={s.formSearch}>
+      <form className={s.formSearch}  onSubmit={submitHandler}>
         <input
           name="query"
           type="search"
           placeholder="Search this site"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
+          onSubmit={submitHandler}
         />
       </form>
     </>
