@@ -118,6 +118,7 @@ export async function getStaticPaths() {
               initialData: await request(graphqlRequest),
             },
       },
+      revalidate: 60,
     };
   }
 
