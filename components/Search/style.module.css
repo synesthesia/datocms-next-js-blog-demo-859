@@ -153,14 +153,14 @@
   .spinning {
     position: absolute;
     right: 4px;
-    top: 12px;
+    top: 4px;
     width: 55px;
     height: 55px;
   }
   
   .spinning div {
     position: absolute;
-    border: 3px solid var(--extra-light-body-color);
+    border: 3px solid #777;
     opacity: 1;
     border-radius: 50%;
     animation: spinning 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
