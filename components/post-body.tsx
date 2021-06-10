@@ -1,8 +1,8 @@
 import React from "react";
 import { StructuredText, Image } from "react-datocms";
-import YouTube, {Options} from 'react-youtube';
+import VideoPlayer from "./VideoPlayer";
 
-interface EmbeddedVideoDetails {
+interface ExternalVideoDetails {
   url:  string;
   height: number;
   provider: string;
@@ -12,47 +12,87 @@ interface EmbeddedVideoDetails {
   width: number;
 }
 
-interface EmbeddedVideoProps {
+interface ExternalVideoProps {
   id: number;
-  details : EmbeddedVideoDetails;
+  details : ExternalVideoDetails;
  }
 
- const yTPlayerOpts:Options = {
-  playerVars: {
-    // https://developers.google.com/youtube/player_parameters
-    autoplay: 1,
-  },
-};
- 
- const ytPLayerOnReady = (e) => {
-    e.target.pauseVideo();
+interface InternalVideo{
+  duration: number;
+  streamingUrl: string;
+  thumbnailUrl: string;
+}
+
+interface InternalVideoContent{
+  title: string;
+  video: InternalVideo;
  }
+
+interface InternalVideoProps {
+  id: string;
+  autoplay: boolean;
+  loop: boolean;
+  thumbTimeSeconds: number;
+  content: InternalVideoContent;
+}
 
 export default function PostBody({ content }) {
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto mb-10">
       <div className="prose prose-lg prose-blue">
         <StructuredText
           data={content}
           renderBlock={({ record }) => {
             if (record.__typename === "ImageBlockRecord") {
               let image = record.image as any;
-              return <Image data={image.responsiveImage} />;
-            }
-            if (record.__typename === "YoutubeEmbedRecord") {
-              let videoProps = record as unknown as EmbeddedVideoProps;
-              let  src = `//www.youtube-nocookie.com/embed/${videoProps.details.providerUid}?rel=0`;
               return (
-                <>
-                <p><strong>Video with native iFrame and YT embed</strong></p>
-                <div className="mx-auto aspect-w-16 aspect-h-9">   
-                  <iframe className="mx-auto" src={src} frameBorder="0" allowFullScreen></iframe>
+                <figure>
+                  <Image data={image.responsiveImage} />
+                </figure>)
+            }
+            if (record.__typename === "ExternalVideoRecord") {
+              let videoProps = record as unknown as ExternalVideoProps;
+              return(
+                <div className="mx-auto mb-10  aspect-w-16 aspect-h-9">
+                  <figure className="mx-auto my-0 aspect-w-16 aspect-h-9">
+                  {videoProps.details.provider === 'youtube' ? (
+                    <iframe 
+                      className="mx-auto" 
+                      src={`//www.youtube.com/embed/${videoProps.details.providerUid}`} 
+                      frameBorder="0" 
+                      allowFullScreen />                   
+                  ) : (
+                    <iframe 
+                      className="mx-auto" 
+                      src={`//player.vimeo.com/video/${videoProps.details.providerUid}?title=0&byline=0&portrait=0`}
+                      frameBorder="0" 
+                      allowFullScreen />
+                  )}
+                  </figure>
+                </div>  
+              )
+            }
+            if (record.__typename === "VideoRecord") {
+              let videoProps = record as unknown as InternalVideoProps;
+              return (
+                <div> 
+                  <figure className="my-0">
+                    <div className="mx-auto  aspect-w-16 aspect-h-9">
+                      <VideoPlayer
+                        controls
+                        autoPlay={videoProps.autoplay}
+                        loop={videoProps.loop}
+                        src={videoProps.content.video.streamingUrl}
+                        poster={`${videoProps.content.video.thumbnailUrl}?time=${
+                          videoProps.thumbTimeSeconds !== null
+                            ? videoProps.thumbTimeSeconds
+                            : videoProps.content.video.duration / 2
+                        }`}
+                      />
+                    </div>
+                    {videoProps.content.title && <figcaption>{videoProps.content.title}</figcaption>}
+                  </figure>
                 </div>
-                <p><strong>Using <a href="https://github.com/tjallingt/react-youtube">react-youtube</a> to  wrap <a href="https://developers.google.com/youtube/iframe_api_reference">YouTube Iframe player API</a></strong></p>
-                <div className="mx-auto aspect-w-16 aspect-h-9">
-                <YouTube videoId={videoProps.details.providerUid} opts={yTPlayerOpts} onReady={ytPLayerOnReady} />;
-                </div>
-              </>
               )
             }
 

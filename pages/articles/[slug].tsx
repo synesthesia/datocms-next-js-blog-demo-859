@@ -76,7 +76,7 @@ export async function getStaticPaths() {
                       value
                     }
                   }
-                  ... on YoutubeEmbedRecord {
+                  ... on ExternalVideoRecord {
                     id
                     details {
                       url
@@ -86,6 +86,20 @@ export async function getStaticPaths() {
                       thumbnailUrl
                       title
                       width
+                    }
+                  }
+                  ... on VideoRecord {
+                    id
+                    autoplay
+                    loop
+                    thumbTimeSeconds
+                    content {
+                      title
+                      video {
+                        duration
+                        streamingUrl
+                        thumbnailUrl
+                      }
                     }
                   }
                 }
