@@ -1,5 +1,6 @@
+import React from "react";
 import { StructuredText, Image } from "react-datocms";
-import { number, string } from "yup";
+import YouTube, {Options} from 'react-youtube';
 
 interface EmbeddedVideoDetails {
   url:  string;
@@ -14,6 +15,17 @@ interface EmbeddedVideoDetails {
 interface EmbeddedVideoProps {
   id: number;
   details : EmbeddedVideoDetails;
+ }
+
+ const yTPlayerOpts:Options = {
+  playerVars: {
+    // https://developers.google.com/youtube/player_parameters
+    autoplay: 1,
+  },
+};
+ 
+ const ytPLayerOnReady = (e) => {
+    e.target.pauseVideo();
  }
 
 export default function PostBody({ content }) {
@@ -32,10 +44,14 @@ export default function PostBody({ content }) {
               let  src = `//www.youtube-nocookie.com/embed/${videoProps.details.providerUid}?rel=0`;
               return (
                 <>
-                <p><strong>Video with native iFrame  and YT embed</strong></p>
-              <div className="mx-auto aspect-w-16 aspect-h-9">   
-              <iframe className="mx-auto" src={src} frameBorder="0" allowFullScreen></iframe>
-              </div>
+                <p><strong>Video with native iFrame and YT embed</strong></p>
+                <div className="mx-auto aspect-w-16 aspect-h-9">   
+                  <iframe className="mx-auto" src={src} frameBorder="0" allowFullScreen></iframe>
+                </div>
+                <p><strong>Using <a href="https://github.com/tjallingt/react-youtube">react-youtube</a> to  wrap <a href="https://developers.google.com/youtube/iframe_api_reference">YouTube Iframe player API</a></strong></p>
+                <div className="mx-auto aspect-w-16 aspect-h-9">
+                <YouTube videoId={videoProps.details.providerUid} opts={yTPlayerOpts} onReady={ytPLayerOnReady} />;
+                </div>
               </>
               )
             }
