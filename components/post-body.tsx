@@ -29,8 +29,15 @@ export default function PostBody({ content }) {
             }
             if (record.__typename === "YoutubeEmbedRecord") {
               let videoProps = record as unknown as EmbeddedVideoProps;
-              let  src = `//www.youtube-nocookie.com/embed/#${videoProps.details.providerUid}?rel=0`;
-              return (<iframe src={src} frameBorder="0" allowFullScreen></iframe>)
+              let  src = `//www.youtube-nocookie.com/embed/${videoProps.details.providerUid}?rel=0`;
+              return (
+                <>
+                <p><strong>Video with native iFrame  and YT embed</strong></p>
+              <div className="mx-auto aspect-w-16 aspect-h-9">   
+              <iframe className="mx-auto" src={src} frameBorder="0" allowFullScreen></iframe>
+              </div>
+              </>
+              )
             }
 
             return (
